@@ -1,4 +1,4 @@
-package service;
+package controller;
 
 import java.util.ArrayList;
 import model.Student;

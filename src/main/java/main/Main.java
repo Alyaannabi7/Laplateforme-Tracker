@@ -1,8 +1,8 @@
 package main;
 
-import service.ProfessorManager;
-import service.StudentManager;
 import model.Student;
+import controller.ProfessorManager;
+import controller.StudentManager;
 import model.Professor;
 
 public class main {
