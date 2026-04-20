@@ -109,9 +109,14 @@ public class ProfessorPanel extends VBox {
 
         VBox classesList = new VBox(8, lv1Btn, lv2Btn, lv3Btn);
 
+        HBox classButtons = new HBox(15);
+        Button importClassBtn = new Button("Importer");
+        Button exportClassBtn = new Button("Exporter");
+        importClassBtn.getStyleClass().add("btn-cyan");
+        exportClassBtn.getStyleClass().add("btn-cyan");
+        classButtons.getChildren().addAll(importClassBtn, exportClassBtn);
 
-
-        classesPanel.getChildren().addAll(classesTitle, classesList);
+        classesPanel.getChildren().addAll(classesTitle, classesList, classButtons);
 
         // Right — students table
         VBox studentsPanel = new VBox(15);
@@ -151,6 +156,63 @@ public class ProfessorPanel extends VBox {
 
         table.getColumns().addAll(nomCol, prenomCol, ageCol, filiereCol, noteCol);
 
+        // Edit bar
+        TextField editEmailField = new TextField();
+        editEmailField.setPromptText("Email étudiant");
+        editEmailField.getStyleClass().add("field-cyan");
+        editEmailField.setPrefWidth(220);
+
+        TextField editProjectField = new TextField();
+        editProjectField.setPromptText("Projet (1,2,3)");
+        editProjectField.getStyleClass().add("field-cyan");
+        editProjectField.setPrefWidth(120);
+
+        TextField editGradeField = new TextField();
+        editGradeField.setPromptText("Note");
+        editGradeField.getStyleClass().add("field-cyan");
+        editGradeField.setPrefWidth(100);
+
+        Label editFeedback = new Label();
+        editFeedback.getStyleClass().add("feedback-neutral");
+
+        editBtn.setOnAction(e -> {
+            String email   = editEmailField.getText().trim();
+            String project = editProjectField.getText().trim();
+            String grade   = editGradeField.getText().trim();
+
+            if (email.isEmpty() || project.isEmpty() || grade.isEmpty()) {
+                editFeedback.getStyleClass().setAll("feedback-error");
+                editFeedback.setText("⚠️ Remplis tous les champs");
+                return;
+            }
+
+            try {
+                int projectId   = Integer.parseInt(project);
+                double gradeVal = Double.parseDouble(grade);
+
+                // Call addGrade — always inserts, never overwrites
+                boolean success = controller.addGrade(email, projectId, gradeVal);
+
+                if (success) {
+                    editFeedback.getStyleClass().setAll("feedback-success");
+                    editFeedback.setText("✅ Note ajoutée");
+                    editEmailField.clear();
+                    editProjectField.clear();
+                    editGradeField.clear();
+                } else {
+                    editFeedback.getStyleClass().setAll("feedback-error");
+                    editFeedback.setText("❌ Étudiant introuvable");
+                }
+            } catch (NumberFormatException ex) {
+                editFeedback.getStyleClass().setAll("feedback-error");
+                editFeedback.setText("⚠️ Projet et note doivent être des nombres");
+            }
+        });
+
+        HBox editBar = new HBox(10, editEmailField, editProjectField, editGradeField, editBtn);
+        editBar.setAlignment(Pos.CENTER_LEFT);
+
+        // Import Export buttons
         HBox studentButtons = new HBox(20);
         Button importBtn = new Button("Importer");
         Button exportBtn = new Button("Exporter");
@@ -158,7 +220,9 @@ public class ProfessorPanel extends VBox {
         exportBtn.getStyleClass().add("btn-cyan");
         studentButtons.getChildren().addAll(importBtn, exportBtn);
 
-        studentsPanel.getChildren().addAll(studentsTitleRow, table, studentButtons);
+        studentsPanel.getChildren().addAll(
+                studentsTitleRow, table, editBar, editFeedback, studentButtons
+        );
 
         mainContent.getChildren().addAll(classesPanel, studentsPanel);
         this.getChildren().add(mainContent);

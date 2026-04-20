@@ -45,4 +45,34 @@ public class ProfessorController {
 
         return list;
     }
+
+    // Add a new grade for a student — never overwrites existing grades
+    public boolean addGrade(String email, int projectId, double grade) {
+        String getIdSql  = "SELECT id FROM students WHERE email = ?";
+        String insertSql = "INSERT INTO grades (student_id, project_id, grade) VALUES (?, ?, ?)";
+
+        try (Connection conn = DatabaseConnection.connect()) {
+
+            // Get student id from email
+            PreparedStatement getIdStmt = conn.prepareStatement(getIdSql);
+            getIdStmt.setString(1, email);
+            ResultSet rs = getIdStmt.executeQuery();
+
+            if (!rs.next()) return false;
+            int studentId = rs.getInt("id");
+
+            // Always INSERT — never overwrite
+            PreparedStatement insertStmt = conn.prepareStatement(insertSql);
+            insertStmt.setInt(1, studentId);
+            insertStmt.setInt(2, projectId);
+            insertStmt.setDouble(3, grade);
+            insertStmt.executeUpdate();
+
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
