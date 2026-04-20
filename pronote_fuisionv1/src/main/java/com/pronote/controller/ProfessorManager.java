@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 import model.Professor;
 
+
 public class ProfessorManager {
     private ArrayList<Professor> professors = new ArrayList<>();
     

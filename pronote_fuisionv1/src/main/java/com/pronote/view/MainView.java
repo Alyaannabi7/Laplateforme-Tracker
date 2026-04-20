@@ -9,6 +9,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
 import com.pronote.main.MainApp;
 import com.pronote.controller.LoginController;
+import com.pronote.database.DatabaseConnect;
 
 import java.util.Objects;
 

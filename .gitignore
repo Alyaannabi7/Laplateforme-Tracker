@@ -2,3 +2,20 @@ target/
 *.class
 .vscode/
 src/main/resources/config.properties
+
+
+
+
+src/pronote/
+├── controller/
+│   ├── LoginController.java     ✅ à créer
+│   ├── AdminController.java     ✅ à créer
+│   └── ProfessorController.java ✅ à créer
+├── database/
+│   └── DatabaseConnect.java     ⚠️ corriger le package
+├── model/
+│   └── Student.java             ✅ à créer (nouveau dossier)
+├── main/
+│   └── Main.java
+└── view/
+    └── ...

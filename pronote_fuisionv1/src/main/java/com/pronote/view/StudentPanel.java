@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import com.pronote.database.DatabaseConnect;
 
 public class StudentPanel extends VBox {
 
