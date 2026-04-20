@@ -10,7 +10,7 @@ public class DatabaseConnection {
 
     private static final String URL      = "jdbc:postgresql://localhost:5432/pronote_db";
     private static final String USER     = "postgres";
-    private static final String PASSWORD = "azertyDU06!123456789";
+    private static final String PASSWORD = "blablabla";
 
     public static Connection connect() throws SQLException {
         Properties props = new Properties();

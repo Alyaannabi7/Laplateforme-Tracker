@@ -16,11 +16,11 @@ public class ProfessorController {
 
         String sql =
                 "SELECT s.first_name, s.last_name, s.age, s.filiere, " +
-                        "       (SELECT g.grade FROM grades g " +
-                        "        WHERE g.student_id = s.id " +
-                        "        ORDER BY g.project_id ASC LIMIT 1) AS first_grade " +
+                        "       ROUND(AVG(g.grade)::numeric, 2) AS avg_grade " +
                         "FROM students s " +
+                        "LEFT JOIN grades g ON g.student_id = s.id " +
                         "WHERE s.level = ? " +
+                        "GROUP BY s.id, s.first_name, s.last_name, s.age, s.filiere " +
                         "ORDER BY s.last_name ASC";
 
         try (Connection conn = DatabaseConnection.connect();
@@ -35,7 +35,7 @@ public class ProfessorController {
                         rs.getString("first_name"),
                         String.valueOf(rs.getInt("age")),
                         rs.getString("filiere"),
-                        String.format("%.2f", rs.getDouble("first_grade"))
+                        String.format("%.2f", rs.getDouble("avg_grade"))
                 ));
             }
 
