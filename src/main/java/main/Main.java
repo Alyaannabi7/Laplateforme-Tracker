@@ -5,7 +5,7 @@ import controller.ProfessorManager;
 import controller.StudentManager;
 import model.Professor;
 
-public class main {
+public class Main {
     public static void main(String[]args) {
         StudentManager student = new StudentManager();
         ProfessorManager prof = new ProfessorManager();
