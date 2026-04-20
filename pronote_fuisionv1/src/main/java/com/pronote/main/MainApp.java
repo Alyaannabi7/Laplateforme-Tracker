@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import com.pronote.view.MainView;
+import java.util.Objects;
 
 public class MainApp extends Application {
 
@@ -14,10 +15,16 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) {
+        System.out.println("Encoding: " + java.nio.charset.Charset.defaultCharset());
+        System.out.println("file.encoding: " + System.getProperty("file.encoding"));
         primaryStage = stage;
 
         root = new StackPane();
         scene = new Scene(root);
+        scene.getStylesheets().add(
+                Objects.requireNonNull(
+                        getClass().getResource("/styles/neon-dashboard.css")
+                ).toExternalForm());
 
         // Start with login view
         root.getChildren().add(new MainView());
